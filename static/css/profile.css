@@ -1,0 +1,29 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    background-color: #fdfdfd;
+    }
+
+.head_text {
+    color: white;
+    }
+
+.card {
+    box-shadow: 0 16px 48px #E3E7EB;
+    }
+
+.field {
+    clear:both;
+    text-align:right;
+    position: absolute;
+    top: 230px;
+    left: 1000px;
+        }
+
+.field_2 {
+    clear:both;
+    text-align:right;
+    position: absolute;
+    top: 230px;
+    left: 1200px;
+        }

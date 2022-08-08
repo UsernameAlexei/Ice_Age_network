@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css'%}" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to Ice Age network </h3>
+<!--                    <p class="text-light">We Love Django As much as you do..! &nbsp-->
+<!--                    </p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <!-- Blog Entries Column -->
+            <div class="col-md-8 mt-3 left">
+                {% for post in posts %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title" id="pt_{{ post.id }}">{{ post.title }}</h2>
+
+                        {% if post.status == 'edited' %}
+                        <p class="card-text text-muted h6">{{ post.user.username }} | {{ post.created_at}} | {{ post.status }}</p>
+                        {% else %}
+                        <p class="card-text text-muted h6">{{ post.user.username }} | {{ post.created_at}}</p>
+                        {% endif %}
+                        <p class="card-text" id="pb_{{ post.id }}">{{post.body|slice:":200" }}</p>
+
+                        {% if post.user.username == request.user|stringformat:'s'  %}
+                            <br><a href="{% url 'ice_age:edit_post' post.id %} ">Edit</a>
+                            <br><a href="{% url 'ice_age:delete_post' post.id %}">Delete</a>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="field">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button is-success is-fullwidth is-medium mt-5"
+                    type="submit">send
+            </button>
+        </form>
+
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/post_update.js' %}"></script>
+
+</body>
+{% endblock content %}
+
+

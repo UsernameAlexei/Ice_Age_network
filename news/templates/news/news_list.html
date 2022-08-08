@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> News </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<div class="column">
+
+{% for post in news_result %}
+
+    <div class="block">
+      <div class="card">
+        <p class="title is-4">
+        {{ post.content}}
+        </p>
+        <a href='{{ post.url }}'>
+              <div class="media-content">
+                <p class="subtitle is-6">
+                  Подробнее...
+                </p>
+              </div>
+        </a>
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock content %}

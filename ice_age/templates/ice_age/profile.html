@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/profile.css'%}" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> {{ profile.user.first_name}} {{ profile.user.last_name}} </h3>
+                        <p class="title is-4">
+                        {{profile.user.username|upper}}
+                        </p>
+                        {% if request.user|stringformat:'s' != profile.user.username %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="buttons has-addons">
+                            {% if profile in user.profile.follows.all %}
+                                <button class="button is-success is-static">
+                                    Follow
+                                </button>
+                                <button class="button is-danger"
+                                        name="follow"
+                                        value="unfollow">
+                                    Unfollow
+                                </button>
+                            {% else %}
+                                <button class="button is-success"
+                                        name="follow"
+                                        value="follow">
+                                    Follow
+                                </button>
+                                <button class="button is-danger is-static">
+                                    Unfollow
+                                </button>
+                            {% endif %}
+                            </div>
+                        </form>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+</div>
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for post in profile.user.posts.all %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+
+                    {% if post.status == 'edited' %}
+                    <p class="card-text text-muted h6">{{ post.created_at}} | {{ post.status }}</p>
+                    {% else %}
+                    <p class="card-text text-muted h6">{{ post.created_at}}</p>
+                    {% endif %}
+
+                    <p class="card-text">{{post.body|slice:":200" }}</p>
+
+                        {% if post.user.username == request.user|stringformat:'s'  %}
+                            <br><a href="{% url 'ice_age:edit_post' post.id %} ">Edit</a>
+                            <br><a href="{% url 'ice_age:delete_post' post.id %}">Delete</a>
+                        {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="field">
+<!--    {{profile.user.username}} Подписки:-->
+    follows:
+    <div class="content">
+        <ul>
+        {% for following in profile.follows.all %}
+            {% if following|stringformat:'s' != profile.user.username %}
+            <li>
+                <a href="{% url 'ice_age:profile' following.id %} ">
+                    {{ following }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="field_2">
+<!--    {{profile.user.username}}:-->
+    followed_by:
+    <div class="content">
+        <ul>
+        {% for follower in profile.followed_by.all %}
+            {% if follower|stringformat:'s' != profile.user.username %}
+            <li>
+                <a href="{% url 'ice_age:profile' follower.id %} ">
+                    {{ follower }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock content %}

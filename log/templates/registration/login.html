@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/authorisation.css'%}" type="text/css">
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Log-in </h3>
+<!--                    <p class="text-light">We Love Django As much as you do..! &nbsp-->
+<!--                    </p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <div class="login-form">
+        {% if form.errors %}
+            <p>Your username and password didn't match.
+                Please try again.
+            </p>
+        {% else %}
+            <p>Please, use the following form to log-in:</p>
+        {% endif %}
+
+        <form action="{% url 'log:login' %}" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+            <p><input type="submit" value="Log-in"></p>
+        </form>
+    </div>
+{% endblock %}
