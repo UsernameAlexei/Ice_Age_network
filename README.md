@@ -31,7 +31,12 @@
 ```cmd
 https://github.com/UsernameAlexei/Ice_Age_network.git
 ```
-2. Настраиваем параметры БД в settings.py, пример:
+2. Создаем виртуальное окружеие и устанавливаем requirements.txt
+```cmd
+ pip install -r requirements.txt
+```
+
+3. Настраиваем параметры БД в settings.py, пример:
 
 ```python
 DATABASES = {
@@ -46,7 +51,7 @@ DATABASES = {
 }
 ```
 
-3. Делаем миграции
+4. Делаем миграции
 ```cmd
 python manage.py makemigrations
 ```
@@ -54,7 +59,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-4. Запускаем и регистрируем нового пользователя.
+5. Запускаем и регистрируем нового пользователя.
 ```cmd
 python manage.py runserver
 ```
